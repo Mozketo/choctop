@@ -167,12 +167,14 @@ module ChocTop::Dmg
   end
   
   def add_eula
-    # TODO support EULA
-    # hdiutil unflatten $@
-  	# /Developer/Tools/DeRez -useDF SLAResources.rsrc > build/temp/sla.r
-  	# /Developer/Tools/Rez -a build/temp/sla.r -o $@
-  	# hdiutil flatten $@
-  	
+    if File.exists?(@eula_filename)
+      sh "hdiutil unflatten '#{pkg}'"
+      sh "/Developer/Tools/DeRez -useDF SLAResources.rsrc > build/sla.r"
+      sh "/Developer/Tools/Rez -a build/sla.r -o '#{pkg}'"
+      sh "hdiutil flatten '#{pkg}'"
+    else
+      puts "No Eula '#{eula_filename}' found; bypassing EULA attachment."
+    end
   end
   
   def run_applescript(applescript, tmp_file = "choctop-script")

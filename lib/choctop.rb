@@ -169,6 +169,13 @@ class ChocTop
     @icon_text_size = size.to_i
   end
   
+  # EULA Filename
+  # If the filename cannot be found EULA attachment will be ignored
+  # Related: Software License Agreement SDK version 1.0
+  # Related: http://www.tribler.org/trac/wiki/MacDiskimage
+  # Default: SLAResources
+  attr_reader :eula_filename
+  
   # The url for the remote package, without the protocol + host
   # e.g. if absolute url is http://mydomain.com/downloads/MyApp-1.0.dmg
   # then pkg_relative_url is /downloads/MyApp-1.0.dmg
@@ -227,6 +234,8 @@ class ChocTop
     @volume_icon ||= File.dirname(__FILE__) + "/../assets/DefaultVolumeIcon.icns"
     @icon_size ||= 104
     @icon_text_size ||= 12
+
+    @eula_filename ||= "SLAResources.rsrc"
 
     add_file :target_bundle, :position => app_icon_position
     
